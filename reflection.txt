@@ -1,0 +1,88 @@
+Jericho Tang
+InfoW18 Summer 2019
+
+Project 1 Reflection
+
+PROJECT DESCRIPTION:
+A whimsical game wherein you, the user, can explore an endless labyrinth at
+your leisure... at least, until you run out of computer memory.
+Featuring:
+- randomly generated locations!
+- monsters you can battle! (but not tame. monsters can't be tamed, after all.)
+- plants you can collect -- and even eat! but watch out! they might be
+  poisonous!
+- fun and epic flavor text that makes things very fun!
+- an immersive atmosphere!
+- try putting in some improper input and see what happens! :)
+
+HOW TO USE THIS PROJECT:
+- Download the project_01 folder to your computer.
+- cd into project_01 and run endlessforest.py from the terminal.
+- If you choose to move files, please make sure that the labyrinthmaker folder
+  and endlessforest.py file are in the same folder. endlessforest.py uses the
+  labyrinthmaker package.
+
+SOME CHALLENGES:
+1. Connecting locations properly
+I wanted a labyrinth that wouldn't generate locations until they were requested
+by the user, but it would remember each location as it was generated. That
+meant I'd have to store each location's directional relation to each other, i.e.
+if they were north/south of each other and such.
+  Initially I had a list of "valid" directions that could be taken as input and
+used as the keys to each location's dictionary of adjacent locations. However,
+when spawning a new location, I needed to do the following:
+  - original_location[direction] = new_location
+  - new_location[opposite_direction] = original_location
+The second one proved to be a bit problematic, as I first tried cascading if
+statements (very annoying) and then doing some modular math to get the right
+direction from the list of valid directions (it didn't work). Eventually, I
+just ended up creating a class variable that was a dictionary of each valid
+direction's "opposite" direction. A bit lazy and some extra data for the program
+to store, perhaps, but it made things much simpler.
+
+2. Figuring out how to indicate when encounters were over
+The Monster and Flora classes each had encounter() functions. However, I had to
+figure out a way to pass information to the Location at which these encounters
+took place -- what happens when a Monster dies or a Flora is harvested? How does
+the Location know when an encounter is over?
+  In most cases, I had these encounter functions return nothing. Instead, I
+checked other conditions, i.e. if the user's HP or monster's HP was 0, to see if
+an encounter should be exited. Which is nice, because it makes use of the
+information encapsulated in each object.
+  I did make some exceptions, like the Monster.battle() helper function, which
+returned True or False depending on whether the encounter with the monster would
+persist after the battle was over.
+  This was the biggest one, honestly.
+
+3. Formatting
+This is a small nitpick but I had a problem for a while where my longer text
+descriptions would have these weird long gaps in them.
+  The problem, it turned out, was that I was visually indenting these strings
+when they got too long for one line. Python would actually parse the visual
+indentation as part of the string. I had to un-indent these really long strings,
+which has led to some really messy looking code.
+
+4. Deciding the parameters for each class
+I built each class a little bit at a time: first Flora, then Monster, then
+Location, then User. As I added each class I added their interactions with each
+other. This did mean at some point that I had to change the __init__ signature
+for Flora and Monster in order to contain location/user information, so that I
+would be able to have them interact smoothly with those things.
+  One frustration I have is the User class I made. To have endlessforest.py
+run, I only need to create one User instance. However, if I tried to do away
+with the User class, I would have a LOT harder time trying to simulate
+encounters and keep track of hp, inventory, and so forth, because then I
+wouldn't have a User class to help contain that information and help other
+objects interact with that information. I suppose I'll just have to find a
+better way of integrating the different classes' interactions next time.
+
+MISC. Miscellaneous things I re-familizarized myself with during the project:
+- __repr__ vs __str__, so I could print nice descriptions of my custom classes.
+- fun python list inbuilt functions, like list.index(_) and list.remove(_)
+- using features of the python random class!
+
+CONCLUSION:
+This was a very fun project to work on, and I think I may keep fiddling with it
+after this class ends, too. Very good for practicing using classes and
+OOP for personal projects. I'd like to add more advanced features to the game.
+But we'll just have to see. :)

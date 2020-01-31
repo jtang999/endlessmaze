@@ -1,0 +1,95 @@
+Jericho Tang
+Info W18 Summer 2019
+
+PROJECT 1 PROPOSAL
+
+CONCEPT: an interface simulating the user exploring a fantasy forest.
+- randomly generated locations upon moving: stream, clearing, meadow, etc.
+- user can choose to move east, west, north, south, or stay at their current
+  location.
+- upon moving to a new location, there is a random chance of encountering a
+  monster or creature of some sort
+- at each location the user can choose to investigate or to move on
+- randomly generated plants, objects, and/or animals at each location
+- can interact with the things at each location
+
+CLASSES
+
+1. LOCATION
+   - class variables:
+     - word bank of adjectives and descriptors for instances of the class to
+       draw upon.
+   - instance variables:
+     - dict of location objects to the north, south, east, west (if known)
+     - list of monsters and flora at the location
+     - randomly generated descriptors drawn from the class's word bank.
+   - init(self, north=None, south=None, east=None, west=None): by default
+     creates a location with no known locations adjacent to it.
+     can pass in location objects for the east, west, north, south of it, etc.
+     generates a random number of monsters and flora.
+   - connect(self, adjacent_location, direction): adds a specified location
+     object to the location's dictionary of adjacent locations.
+   - remove_object(self, object): removes the given object from the list of
+     things that are currently at location.
+   - investigate(self): prints list of things in the clearing that the user can
+     interact with.
+   - look_closely(self, index): user enters an encounter with the object at
+     [index] of the location's list of monsters and flora.
+
+2. MONSTER
+   - class variables:
+     - word bank of adjectives and descriptors for instances of the class to
+       draw upon.
+   - instance variables:
+     - health/hp
+     - aggressive: true/false. if aggressive, will attack when disturbed.
+     - randomly generated descriptors drawn from the class's word bank.
+     - location
+   - init: makes a monster with a random amount of hp, description, and
+     aggressiveness.
+   - encounter(self): user initiates contact with monster. monster will ignore
+     user if nonaggressive, otherwise will attack. returns aggression.
+   - attack(self): monster attacks user and inflicts random damage. returns
+     the amount of damage done.
+   - deal_damage(self, amount): subtracts [amount] from monster's HP. if HP falls
+     below 0, removes monster from current location.
+   - appease(self, threshold=50): generates a random number in range(100). if it
+     is above threshold, then the monster becomes non-aggressive. returns true
+     if monster has been appeased, false if not.
+
+3. FLORA
+   - class variables:
+     - word bank of adjectives and descriptors for instances of the class to
+       draw upon.
+   - instance variables:
+     - poisonous: true/false
+     - health value: random. if poisonous, will subtract this amount from user's
+       hp. otherwise, will add health value to user's hp.
+     - appeasement value: random. if fed to a monster, changes the threshold in
+       monster's appease function to this value.
+     - randomly generated descriptors drawn from the class's word bank.
+   - init: makes a flora with randomized instance variables.
+   - encounter(self): returns a description of the flower.
+   - add_inventory(self): moves self to the user's inventory
+   - consume(self): eat the plant. removes from user's inventory. returns an int
+     (its health value)
+   - feed(self): feed the plant to a monster. removes from user's inventory.
+     returns its appeasement value.
+
+4. main file (not a class)
+   - upon running will start simulator, drops user at a location
+   - user interact by typing
+   - stores user's hp; upon hitting 0, will quit simulator
+   - stores a list of user's items
+   - stores boolean in_encounter: true if in an encounter with something, false
+     otherwise.
+   - stores user's current location.
+   - FUNCTIONS:
+     - move(current_location, direction): moves from current location in the
+       direction specified. if no location is recorded in that direction yet,
+       will generate a location object there.
+     - view_inventory(): prints list of items in inventory.
+     - use_inventory(): prints list of items in inventory with index, then
+       prompts user to choose which item to use. returns none.
+     - run_away(): randomly moves to an adjacent location. allows user to
+       escape encounters. returns none. 
